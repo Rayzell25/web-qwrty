@@ -248,3 +248,110 @@ a { color: var(--rz-primary); }
     * { scroll-behavior: auto; }
     .card-product:hover { transform: none; }
 }
+
+
+/* =====================================================================
+   LOGO ANIMASI (R + Petir)
+   ===================================================================== */
+.rz-logo { display: inline-flex; align-items: center; gap: .6rem; text-decoration: none; }
+.rz-mark {
+    position: relative;
+    width: 44px; height: 44px;
+    border-radius: 13px;
+    background: linear-gradient(135deg, var(--rz-primary), var(--rz-primary-2));
+    display: grid; place-items: center;
+    box-shadow: 0 10px 22px -8px rgba(var(--rz-primary-rgb), .85);
+    animation: rzFloat 4s ease-in-out infinite;
+    overflow: visible;
+}
+.rz-mark::before {
+    content: ""; position: absolute; inset: 0; border-radius: 13px;
+    background: linear-gradient(135deg, rgba(255,255,255,.35), transparent 55%);
+    mix-blend-mode: overlay;
+}
+.rz-mark .rz-r {
+    color: #fff; font-weight: 800; font-size: 1.45rem; line-height: 1;
+    font-family: 'Plus Jakarta Sans', sans-serif; transform: translateX(-2px);
+}
+.rz-mark .rz-bolt {
+    position: absolute; right: 5px; bottom: 4px;
+    width: 15px; height: 15px; color: var(--rz-accent);
+    filter: drop-shadow(0 0 3px rgba(245, 158, 11, .6));
+    animation: rzBolt 2.2s ease-in-out infinite;
+}
+.rz-logo-text { font-weight: 800; letter-spacing: -.02em; color: var(--rz-ink); }
+.rz-logo-text b { background: linear-gradient(120deg, var(--rz-primary), var(--rz-primary-2)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.rz-logo:hover .rz-mark { transform: scale(1.06) rotate(-3deg); transition: transform .3s; }
+
+@keyframes rzFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+@keyframes rzBolt {
+    0%, 100% { opacity: .9; filter: drop-shadow(0 0 2px rgba(245,158,11,.4)); }
+    45% { opacity: 1; filter: drop-shadow(0 0 7px rgba(245,158,11,1)); }
+    50% { opacity: .55; }
+}
+
+/* =====================================================================
+   HERO TERANG (gaya referensi)
+   ===================================================================== */
+.hero-light {
+    position: relative;
+    background: linear-gradient(180deg, #eef2ff 0%, #f5f3ff 38%, #ffffff 100%);
+    overflow: hidden;
+    padding: 3.5rem 0 4.5rem;
+}
+.hero-grid {
+    position: absolute; inset: 0; z-index: 0;
+    background-image:
+        linear-gradient(rgba(99,102,241,.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(99,102,241,.08) 1px, transparent 1px);
+    background-size: 44px 44px;
+    -webkit-mask-image: radial-gradient(circle at 50% 25%, #000 25%, transparent 72%);
+    mask-image: radial-gradient(circle at 50% 25%, #000 25%, transparent 72%);
+}
+.hero-light .container { position: relative; z-index: 2; }
+.hero-title { font-size: clamp(2.3rem, 7vw, 3.9rem); line-height: 1.06; color: #0f172a; font-weight: 800; letter-spacing: -.03em; }
+.hero-sub { color: #64748b; max-width: 620px; margin: 1.1rem auto 0; font-size: 1.06rem; }
+.text-gradient { background: linear-gradient(120deg, #2563eb, #7c3aed); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+
+.online-badge {
+    display: inline-flex; align-items: center; gap: .55rem;
+    background: #fff; border: 1px solid var(--rz-line); box-shadow: var(--rz-shadow);
+    border-radius: 999px; padding: .5rem 1.15rem; font-weight: 700; color: #3b82f6; font-size: .95rem;
+}
+.online-badge .dot { width: 9px; height: 9px; border-radius: 50%; background: #22c55e; animation: rzPing 1.8s infinite; }
+@keyframes rzPing {
+    0% { box-shadow: 0 0 0 0 rgba(34,197,94,.55); }
+    70% { box-shadow: 0 0 0 9px rgba(34,197,94,0); }
+    100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
+}
+
+.popular-pill {
+    display: inline-flex; align-items: center; gap: .5rem;
+    background: linear-gradient(90deg, #fff7ed, #ffedd5);
+    color: #ea580c; font-weight: 800; letter-spacing: .12em; font-size: .8rem;
+    padding: .55rem 1.15rem; border-radius: 999px;
+}
+.popular-pill .bi-fire { animation: rzFlame 1.6s ease-in-out infinite; }
+@keyframes rzFlame { 0%,100% { transform: scale(1); } 50% { transform: scale(1.18) rotate(-4deg); } }
+
+/* =====================================================================
+   COVERFLOW CAROUSEL (Swiper)
+   ===================================================================== */
+.feat-swiper { padding: 1.5rem 0 1rem; max-width: 900px; margin: 0 auto; }
+.feat-swiper .swiper-slide { width: 230px; }
+.feat-card {
+    display: block; border-radius: 20px; overflow: hidden; position: relative;
+    aspect-ratio: 3 / 4; background: #1e293b; box-shadow: var(--rz-shadow-lg);
+    text-decoration: none;
+}
+.feat-card img { width: 100%; height: 100%; object-fit: cover; }
+.feat-card .cap {
+    position: absolute; inset: auto 0 0 0; padding: 1rem .9rem .9rem;
+    background: linear-gradient(transparent, rgba(8,11,25,.88));
+    color: #fff; font-weight: 700; font-size: .95rem;
+}
+.feat-swiper .swiper-button-next, .feat-swiper .swiper-button-prev {
+    color: var(--rz-primary); background: #fff; width: 46px; height: 46px;
+    border-radius: 50%; box-shadow: var(--rz-shadow);
+}
+.feat-swiper .swiper-button-next::after, .feat-swiper .swiper-button-prev::after { font-size: 1.1rem; font-weight: 800; }

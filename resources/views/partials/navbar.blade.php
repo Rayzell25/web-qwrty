@@ -1,13 +1,19 @@
 @php $siteName = setting('site_name', config('app.name', 'RPD')); @endphp
 <nav class="navbar navbar-expand-lg site-nav sticky-top">
     <div class="container">
-        <a class="navbar-brand" href="{{ route('home') }}">
+        <a class="navbar-brand rz-logo" href="{{ route('home') }}">
             @if ($logo = setting_asset('logo'))
-                <img src="{{ $logo }}" alt="{{ $siteName }}" height="34">
+                <img src="{{ $logo }}" alt="{{ $siteName }}" height="38">
+                <span class="rz-logo-text">{{ $siteName }}</span>
             @else
-                <span class="brand-badge">{{ strtoupper(substr($siteName, 0, 1)) }}</span>
+                <span class="rz-mark">
+                    <span class="rz-r">R</span>
+                    <svg class="rz-bolt" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M13 1.5 4.5 13.2c-.3.4 0 .9.5.9H10l-1.6 8.1c-.1.6.7 1 1.1.4L19.5 10.8c.3-.4 0-.9-.5-.9H14l1.6-8c.1-.6-.7-1-1.1-.4z"/>
+                    </svg>
+                </span>
+                <span class="rz-logo-text">{{ $siteName }}</span>
             @endif
-            <span>{{ $siteName }}</span>
         </a>
 
         <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"

@@ -18,8 +18,9 @@ class SiteSettingSeeder extends Seeder
             ['key' => 'footer_text', 'value' => '© '.date('Y').' RPD. All rights reserved.', 'group' => 'general'],
 
             // group: hero
-            ['key' => 'hero_title', 'value' => 'Selamat Datang di RPD', 'group' => 'hero'],
-            ['key' => 'hero_subtitle', 'value' => 'Temukan produk terbaik dengan kualitas terjamin dan garansi resmi.', 'group' => 'hero'],
+            ['key' => 'hero_title', 'value' => 'Belanja Aman,', 'group' => 'hero'],
+            ['key' => 'hero_title_accent', 'value' => 'Garansi Terpercaya', 'group' => 'hero'],
+            ['key' => 'hero_subtitle', 'value' => 'Produk berkualitas dengan garansi resmi, layanan cepat & dukungan ramah setiap hari.', 'group' => 'hero'],
 
             // group: contact
             ['key' => 'company_address', 'value' => 'Jl. Merdeka No. 123, Jakarta, Indonesia', 'group' => 'contact'],
