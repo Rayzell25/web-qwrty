@@ -355,3 +355,95 @@ a { color: var(--rz-primary); }
     border-radius: 50%; box-shadow: var(--rz-shadow);
 }
 .feat-swiper .swiper-button-next::after, .feat-swiper .swiper-button-prev::after { font-size: 1.1rem; font-weight: 800; }
+
+
+/* =====================================================================
+   LOGO MEDIA (gambar / gif / video dari admin)
+   ===================================================================== */
+.rz-logo-media {
+    height: 42px; width: auto; max-width: 180px;
+    object-fit: contain; border-radius: 10px; display: block;
+}
+
+/* =====================================================================
+   TOGGLE TEMA (bulan / matahari)
+   ===================================================================== */
+.theme-toggle {
+    width: 42px; height: 42px; border-radius: 50%;
+    border: 1px solid var(--rz-line); background: var(--rz-surface); color: var(--rz-ink);
+    display: grid; place-items: center; font-size: 1.05rem; cursor: pointer;
+    transition: transform .25s ease, background .25s, color .25s, border-color .25s;
+}
+.theme-toggle:hover { transform: rotate(18deg) scale(1.06); border-color: rgba(var(--rz-primary-rgb), .55); color: var(--rz-primary); box-shadow: var(--rz-shadow); }
+.theme-toggle .icon-light { display: none; }
+[data-bs-theme="dark"] .theme-toggle .icon-dark { display: none; }
+[data-bs-theme="dark"] .theme-toggle .icon-light { display: inline; color: var(--rz-accent); }
+
+/* =====================================================================
+   TEMA GELAP (hitam) — sinkron dengan Bootstrap data-bs-theme="dark"
+   ===================================================================== */
+[data-bs-theme="dark"] {
+    --rz-bg: #0b1020;
+    --rz-surface: #131a2e;
+    --rz-ink: #e9ecf6;
+    --rz-ink-soft: #9aa4c0;
+    --rz-line: #243049;
+    --rz-dark: #060912;
+    --rz-shadow: 0 12px 30px -14px rgba(0, 0, 0, .65);
+    --rz-shadow-lg: 0 26px 60px -22px rgba(0, 0, 0, .8);
+}
+
+[data-bs-theme="dark"] body { background: var(--rz-bg); color: var(--rz-ink); }
+
+[data-bs-theme="dark"] .site-nav { background: rgba(11, 16, 32, .72); }
+[data-bs-theme="dark"] .site-nav.scrolled { background: rgba(11, 16, 32, .94); border-bottom-color: var(--rz-line); }
+[data-bs-theme="dark"] .site-nav .nav-link { color: var(--rz-ink-soft) !important; }
+[data-bs-theme="dark"] .site-nav .nav-link:hover { color: #fff !important; background: rgba(255, 255, 255, .06); }
+[data-bs-theme="dark"] .rz-logo-text { color: var(--rz-ink); }
+
+[data-bs-theme="dark"] .hero-light {
+    background: radial-gradient(900px 420px at 50% -10%, rgba(124, 58, 237, .28), transparent 60%),
+                linear-gradient(180deg, #0b1020 0%, #0e1430 45%, #0b1020 100%);
+}
+[data-bs-theme="dark"] .hero-grid {
+    background-image:
+        linear-gradient(rgba(148, 163, 255, .10) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(148, 163, 255, .10) 1px, transparent 1px);
+}
+[data-bs-theme="dark"] .hero-title { color: #f8fafc; }
+[data-bs-theme="dark"] .hero-sub { color: var(--rz-ink-soft); }
+[data-bs-theme="dark"] .text-gradient { background: linear-gradient(120deg, #60a5fa, #a78bfa); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+
+[data-bs-theme="dark"] .online-badge { background: var(--rz-surface); border-color: var(--rz-line); color: #60a5fa; }
+
+[data-bs-theme="dark"] .card,
+[data-bs-theme="dark"] .tile { background: var(--rz-surface); border-color: var(--rz-line); }
+[data-bs-theme="dark"] .card-product .img-wrap { background: #0e1430; }
+[data-bs-theme="dark"] .card-product .card-title a { color: var(--rz-ink); }
+[data-bs-theme="dark"] .card-product .card-title a:hover { color: #818cf8; }
+[data-bs-theme="dark"] .tile .ico { background: rgba(var(--rz-primary-rgb), .18); color: #a5b4fc; }
+
+[data-bs-theme="dark"] .accordion-item { background: var(--rz-surface); border-color: var(--rz-line); }
+[data-bs-theme="dark"] .accordion-button { background: var(--rz-surface); color: var(--rz-ink); }
+[data-bs-theme="dark"] .accordion-button:not(.collapsed) { background: rgba(var(--rz-primary-rgb), .18); color: #a5b4fc; }
+[data-bs-theme="dark"] .accordion-button::after { filter: invert(1) grayscale(1) brightness(1.6); }
+[data-bs-theme="dark"] .accordion-body { color: var(--rz-ink-soft); }
+
+[data-bs-theme="dark"] .form-control,
+[data-bs-theme="dark"] .form-select { background: #0e1430; border-color: var(--rz-line); color: var(--rz-ink); }
+[data-bs-theme="dark"] .form-control::placeholder { color: #6b7693; }
+[data-bs-theme="dark"] .form-control:focus,
+[data-bs-theme="dark"] .form-select:focus { background: #0e1430; color: var(--rz-ink); }
+
+[data-bs-theme="dark"] .text-secondary,
+[data-bs-theme="dark"] .text-muted { color: var(--rz-ink-soft) !important; }
+
+[data-bs-theme="dark"] .btn-light { background: #1b2440; color: #e9ecf6; }
+[data-bs-theme="dark"] .btn-light:hover { background: #232f52; }
+
+[data-bs-theme="dark"] .breadcrumb { --bs-breadcrumb-divider-color: var(--rz-ink-soft); }
+[data-bs-theme="dark"] .list-group-item { background: var(--rz-surface); border-color: var(--rz-line); color: var(--rz-ink); }
+[data-bs-theme="dark"] .list-group-item.active { background: var(--rz-primary); border-color: var(--rz-primary); color: #fff; }
+[data-bs-theme="dark"] .nav-tabs { border-color: var(--rz-line); }
+[data-bs-theme="dark"] .nav-tabs .nav-link.active { background: var(--rz-surface); border-color: var(--rz-line) var(--rz-line) var(--rz-surface); color: var(--rz-ink); }
+[data-bs-theme="dark"] .tab-content { border-color: var(--rz-line) !important; }

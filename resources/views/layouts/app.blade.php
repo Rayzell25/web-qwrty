@@ -4,6 +4,18 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    {{-- Terapkan tema tersimpan SEBELUM render (anti-flash) --}}
+    <script>
+        (function () {
+            try {
+                var t = localStorage.getItem('rz-theme') || 'light';
+                document.documentElement.setAttribute('data-bs-theme', t);
+            } catch (e) {
+                document.documentElement.setAttribute('data-bs-theme', 'light');
+            }
+        })();
+    </script>
+
     <title>@yield('title', setting('meta_title', setting('site_name', config('app.name', 'RPD'))))</title>
 
     <meta name="description" content="@yield('meta_description', setting('meta_description', setting('site_tagline', '')))">

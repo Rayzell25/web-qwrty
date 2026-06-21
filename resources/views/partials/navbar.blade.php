@@ -1,24 +1,32 @@
-@php $siteName = setting('site_name', config('app.name', 'RPD')); @endphp
+@php
+    $siteName  = setting('site_name', config('app.name', 'RPD'));
+    $brandName = setting('site_name');                 // null/empty jika dikosongkan admin
+    $logoUrl   = setting_asset('logo');
+    $logoExt   = $logoUrl ? strtolower(pathinfo(parse_url($logoUrl, PHP_URL_PATH) ?? '', PATHINFO_EXTENSION)) : '';
+    $isVideo   = in_array($logoExt, ['mp4', 'webm', 'ogg', 'mov']);
+@endphp
 <nav class="navbar navbar-expand-lg site-nav sticky-top">
     <div class="container">
         <a class="navbar-brand rz-logo" href="{{ route('home') }}">
-            @if ($logo = setting_asset('logo'))
-                <img src="{{ $logo }}" alt="{{ $siteName }}" height="38">
-                <span class="rz-logo-text">{{ $siteName }}</span>
+            @if ($logoUrl)
+                @if ($isVideo)
+                    <video class="rz-logo-media" autoplay muted loop playsinline disablepictureinpicture>
+                        <source src="{{ $logoUrl }}">
+                    </video>
+                @else
+                    <img class="rz-logo-media" src="{{ $logoUrl }}" alt="{{ $brandName ?: 'Logo' }}">
+                @endif
+                @if (filled($brandName))
+                    <span class="rz-logo-text">{{ $brandName }}</span>
+                @endif
             @else
-                <span class="rz-mark">
-                    <span class="rz-r">R</span>
-                    <svg class="rz-bolt" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                        <path d="M13 1.5 4.5 13.2c-.3.4 0 .9.5.9H10l-1.6 8.1c-.1.6.7 1 1.1.4L19.5 10.8c.3-.4 0-.9-.5-.9H14l1.6-8c.1-.6-.7-1-1.1-.4z"/>
-                    </svg>
-                </span>
-                <span class="rz-logo-text">{{ $siteName }}</span>
+                <span class="rz-logo-text">{{ $brandName ?: $siteName }}</span>
             @endif
         </a>
 
-        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+        <button class="navbar-toggler border-0 p-1" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
                 aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+            <i class="bi bi-list" style="font-size: 1.7rem; color: var(--rz-ink);"></i>
         </button>
 
         <div class="collapse navbar-collapse" id="mainNav">
@@ -47,6 +55,13 @@
             </ul>
 
             <ul class="navbar-nav align-items-lg-center mb-2 mb-lg-0">
+                <li class="nav-item me-lg-2 my-2 my-lg-0">
+                    <button class="theme-toggle" type="button" id="themeToggle" aria-label="Ganti tema gelap atau terang" title="Tema gelap / terang">
+                        <i class="bi bi-moon-stars-fill icon-dark"></i>
+                        <i class="bi bi-sun-fill icon-light"></i>
+                    </button>
+                </li>
+
                 @guest
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('login') ? 'active' : '' }}" href="{{ route('login') }}">Masuk</a>

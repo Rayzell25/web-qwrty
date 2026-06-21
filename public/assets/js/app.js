@@ -53,5 +53,16 @@
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
         }
+
+        /* ---------- Toggle tema gelap / terang ---------- */
+        var themeToggle = document.getElementById('themeToggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', function () {
+                var current = document.documentElement.getAttribute('data-bs-theme') === 'dark' ? 'dark' : 'light';
+                var next = current === 'dark' ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-bs-theme', next);
+                try { localStorage.setItem('rz-theme', next); } catch (e) {}
+            });
+        }
     });
 })();
