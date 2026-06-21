@@ -2,14 +2,9 @@
 
 @php
     $siteName = setting('site_name', config('app.name', 'RPD'));
-    $carousel = $featuredProducts->isNotEmpty() ? $featuredProducts : $latestProducts;
 @endphp
 
 @section('title', $siteName . ' — ' . setting('site_tagline', 'Selamat Datang'))
-
-@push('styles')
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
-@endpush
 
 @section('content')
     {{-- ============ HERO TERANG ============ --}}
@@ -27,35 +22,7 @@
                 {{ setting('hero_subtitle', setting('site_tagline', 'Produk berkualitas dengan garansi resmi, layanan cepat & dukungan ramah setiap hari.')) }}
             </p>
 
-            @if ($carousel->isNotEmpty())
-                <div class="reveal d3 mt-4">
-                    <span class="popular-pill"><i class="bi bi-fire"></i> PALING POPULER</span>
-                </div>
-
-                <div class="reveal d3">
-                    <div class="swiper feat-swiper">
-                        <div class="swiper-wrapper">
-                            @foreach ($carousel as $product)
-                                @php
-                                    $img = $product->image
-                                        ? \Illuminate\Support\Facades\Storage::disk('public')->url($product->image)
-                                        : 'https://placehold.co/600x800?text=' . urlencode($product->name);
-                                @endphp
-                                <div class="swiper-slide">
-                                    <a href="{{ route('products.show', $product->slug) }}" class="feat-card">
-                                        <img src="{{ $img }}" alt="{{ $product->name }}" loading="lazy">
-                                        <span class="cap">{{ $product->name }}</span>
-                                    </a>
-                                </div>
-                            @endforeach
-                        </div>
-                        <div class="swiper-button-prev"></div>
-                        <div class="swiper-button-next"></div>
-                    </div>
-                </div>
-            @endif
-
-            <div class="d-flex flex-wrap gap-2 justify-content-center mt-4 reveal d4">
+            <div class="d-flex flex-wrap gap-2 justify-content-center mt-4 reveal d3">
                 <a href="{{ route('products.index') }}" class="btn btn-primary btn-lg">Lihat Semua Produk</a>
                 <a href="{{ route('warranty.index') }}" class="btn btn-outline-primary btn-lg">Klaim Garansi</a>
             </div>
@@ -108,16 +75,35 @@
         </div>
     </section>
 
-    {{-- ============ PRODUK TERBARU ============ --}}
-    @if ($latestProducts->isNotEmpty())
+    {{-- ============ PRODUK UNGGULAN ============ --}}
+    @if ($featuredProducts->isNotEmpty())
         <section class="section-tight">
             <div class="container">
                 <div class="d-flex justify-content-between align-items-end mb-4 reveal">
                     <div>
-                        <span class="eyebrow"><i class="bi bi-box-seam"></i> Koleksi</span>
-                        <h2 class="h3 mb-0">Produk Terbaru</h2>
+                        <span class="eyebrow"><i class="bi bi-gem"></i> Pilihan Terbaik</span>
+                        <h2 class="h3 mb-0">Produk Unggulan</h2>
                     </div>
                     <a href="{{ route('products.index') }}" class="btn btn-outline-primary btn-sm">Semua Produk</a>
+                </div>
+                <div class="row g-4">
+                    @foreach ($featuredProducts as $product)
+                        <div class="col-6 col-lg-3 reveal d{{ ($loop->index % 4) + 1 }}">
+                            @include('partials.product-card', ['product' => $product])
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+    @endif
+
+    {{-- ============ PRODUK TERBARU ============ --}}
+    @if ($latestProducts->isNotEmpty())
+        <section class="section-tight">
+            <div class="container">
+                <div class="mb-4 reveal">
+                    <span class="eyebrow"><i class="bi bi-box-seam"></i> Koleksi</span>
+                    <h2 class="h3 mb-0">Produk Terbaru</h2>
                 </div>
                 <div class="row g-4">
                     @foreach ($latestProducts as $product)
@@ -178,24 +164,3 @@
         </div>
     </section>
 @endsection
-
-@push('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            if (typeof Swiper !== 'undefined' && document.querySelector('.feat-swiper')) {
-                new Swiper('.feat-swiper', {
-                    effect: 'coverflow',
-                    grabCursor: true,
-                    centeredSlides: true,
-                    slidesPerView: 'auto',
-                    loop: true,
-                    speed: 600,
-                    coverflowEffect: { rotate: 0, stretch: 36, depth: 130, modifier: 1.5, slideShadows: false },
-                    autoplay: { delay: 2800, disableOnInteraction: false },
-                    navigation: { nextEl: '.feat-swiper .swiper-button-next', prevEl: '.feat-swiper .swiper-button-prev' },
-                });
-            }
-        });
-    </script>
-@endpush
