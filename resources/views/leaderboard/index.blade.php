@@ -3,7 +3,7 @@
 @section('title', 'Leaderboard — ' . setting('site_name', config('app.name', 'RPD')))
 
 @section('content')
-<div class="container">
+<div class="container py-5">
     <h1 class="h3 mb-4">Leaderboard</h1>
 
     @if ($entries->isEmpty())

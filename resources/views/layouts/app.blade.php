@@ -12,39 +12,46 @@
         <link rel="icon" href="{{ $favicon }}">
     @endif
 
-    <!-- Bootstrap 5 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    {{-- Fonts --}}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    {{-- Bootstrap 5 + Icons --}}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
 
-    <style>
-        :root { --rpd-primary: #0d6efd; }
-        body { display: flex; flex-direction: column; min-height: 100vh; }
-        main { flex: 1 0 auto; }
-        .hero { background: linear-gradient(135deg, #0d6efd 0%, #6610f2 100%); color: #fff; }
-        .card-product .card-img-top { height: 200px; object-fit: cover; background: #f1f3f5; }
-        .object-cover { object-fit: cover; }
-        footer a { text-decoration: none; }
-    </style>
+    {{-- Theme --}}
+    <link href="{{ asset('assets/css/app.css') }}" rel="stylesheet">
 
     @stack('styles')
 </head>
 <body>
+    <div class="scroll-progress"></div>
+
     @include('partials.navbar')
 
-    <main class="py-4">
-        <div class="container">
-            @include('partials.flash')
-        </div>
+    <main>
+        @if (session('success') || session('error') || session('warning') || session('info') || $errors->any())
+            <div class="container pt-4">
+                @include('partials.flash')
+            </div>
+        @endif
 
         @yield('content')
     </main>
 
     @include('partials.footer')
 
-    <!-- Bootstrap 5 JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <button type="button" class="to-top" aria-label="Kembali ke atas">
+        <i class="bi bi-arrow-up"></i>
+    </button>
+
+    {{-- Bootstrap 5 JS --}}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    {{-- Theme JS --}}
+    <script src="{{ asset('assets/js/app.js') }}"></script>
 
     @stack('scripts')
 </body>

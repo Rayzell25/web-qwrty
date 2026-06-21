@@ -12,7 +12,7 @@
         return \Illuminate\Support\Facades\Storage::disk('public')->url($path);
     });
 @endphp
-<div class="container">
+<div class="container py-5">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('home') }}">Beranda</a></li>

@@ -3,7 +3,7 @@
 @section('title', 'FAQ — ' . setting('site_name', config('app.name', 'RPD')))
 
 @section('content')
-<div class="container">
+<div class="container py-5">
     <h1 class="h3 mb-4">Pertanyaan yang Sering Diajukan</h1>
 
     @if ($faqs->isEmpty())
