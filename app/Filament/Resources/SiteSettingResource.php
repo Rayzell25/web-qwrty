@@ -39,9 +39,9 @@ class SiteSettingResource extends Resource
                 ->maxLength(255)
                 ->helperText('Opsional, untuk pengelompokan (general, contact, social, dll).'),
 
-            // Uploader khusus saat key = logo / favicon
-            Forms\Components\FileUpload::make('value')
-                ->label(fn (Forms\Get $get) => $get('key') === 'favicon' ? 'File Favicon' : 'File Logo')
+            // Uploader khusus saat key = logo / favicon (nama field "upload", bukan "value")
+            Forms\Components\FileUpload::make('upload')
+                ->label('File (Logo / Favicon)')
                 ->disk('public')
                 ->directory('settings')
                 ->visibility('public')

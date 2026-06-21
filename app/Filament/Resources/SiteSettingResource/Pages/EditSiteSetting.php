@@ -16,4 +16,30 @@ class EditSiteSetting extends EditRecord
             Actions\DeleteAction::make(),
         ];
     }
+
+    /**
+     * Tampilkan file saat ini ke field uploader untuk key logo/favicon.
+     */
+    protected function mutateFormDataBeforeFill(array $data): array
+    {
+        if (in_array($data['key'] ?? null, ['logo', 'favicon'], true)) {
+            $data['upload'] = $data['value'] ?? null;
+        }
+
+        return $data;
+    }
+
+    /**
+     * Simpan path hasil upload ke kolom value.
+     */
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        if (in_array($data['key'] ?? null, ['logo', 'favicon'], true)) {
+            $data['value'] = $data['upload'] ?? null;
+        }
+
+        unset($data['upload']);
+
+        return $data;
+    }
 }
