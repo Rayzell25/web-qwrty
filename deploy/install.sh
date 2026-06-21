@@ -180,7 +180,7 @@ if [ ! -f .env ]; then
     cp .env.example .env
 fi
 
-sed -i "s|^APP_NAME=.*|APP_NAME=${APP_NAME}|"            .env
+sed -i "s|^APP_NAME=.*|APP_NAME=\"${APP_NAME}\"|"        .env
 sed -i "s|^APP_ENV=.*|APP_ENV=production|"               .env
 sed -i "s|^APP_DEBUG=.*|APP_DEBUG=false|"                .env
 sed -i "s|^APP_URL=.*|APP_URL=${APP_URL}|"               .env
