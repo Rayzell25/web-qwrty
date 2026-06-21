@@ -36,6 +36,9 @@ DB_NAME="rpd"
 DB_USER="rpd_user"
 DB_PASS="GantiPasswordIniYa123"
 
+# (internal) diisi otomatis jika script dijalankan dari dalam repo yang sudah di-clone
+USE_EXISTING_DIR=0
+
 # ----------------------------------------------------------------------------
 # Helper output
 # ----------------------------------------------------------------------------
@@ -47,6 +50,15 @@ die()  { echo -e "\033[1;31m[x] $*\033[0m" >&2; exit 1; }
 
 export DEBIAN_FRONTEND=noninteractive
 export COMPOSER_ALLOW_SUPERUSER=1
+
+# Auto-detect: jika script dijalankan dari DALAM repo yang sudah di-clone
+# (mis. /root/web-qwrty), install di tempat itu — jangan clone ulang.
+SCRIPT_PATH="$(readlink -f "$0")"
+REPO_ROOT="$(dirname "$(dirname "${SCRIPT_PATH}")")"
+if [ -f "${REPO_ROOT}/artisan" ] && [ -f "${REPO_ROOT}/composer.json" ]; then
+    APP_DIR="${REPO_ROOT}"
+    USE_EXISTING_DIR=1
+fi
 
 # ----------------------------------------------------------------------------
 # 2) UPDATE SISTEM & DEPENDENSI DASAR
@@ -80,7 +92,10 @@ apt-get install -y \
     php${PHP_VERSION}-bcmath \
     php${PHP_VERSION}-intl
 
-php -v
+# PENTING: jadikan PHP 8.3 sebagai default CLI, supaya 'composer' & 'php artisan'
+# memakai 8.3 (bukan PHP lama 8.1/8.2 yang mungkin sudah ada di VPS).
+update-alternatives --set php "/usr/bin/php${PHP_VERSION}" 2>/dev/null || true
+log "PHP CLI aktif: $(php -v | head -1)"
 
 # ----------------------------------------------------------------------------
 # 4) INSTALL COMPOSER
@@ -135,7 +150,9 @@ systemctl enable --now nginx
 # ----------------------------------------------------------------------------
 # 7) DEPLOY APLIKASI (clone / update)
 # ----------------------------------------------------------------------------
-if [ -d "${APP_DIR}/.git" ]; then
+if [ "${USE_EXISTING_DIR}" -eq 1 ]; then
+    log "Pakai folder repo yang sudah ada: ${APP_DIR} (skip clone/pull)"
+elif [ -d "${APP_DIR}/.git" ]; then
     log "Repo sudah ada, melakukan git pull"
     git config --global --add safe.directory "${APP_DIR}" || true
     git -C "${APP_DIR}" fetch origin "${BRANCH}"
