@@ -140,3 +140,28 @@ routes/web.php             # semua route publik + auth + otp
 - Query frontend hanya menampilkan data dengan `is_active = true`.
 - Upload disimpan pada disk `public` (`storage/app/public`), diakses via `storage:link`.
 - Site settings di-cache (`Cache::rememberForever('site_settings')`) dan otomatis di-flush saat data berubah.
+
+
+## WhatsApp OTP Gateway (opsional, self-hosted via QR)
+
+Aplikasi default-nya mengirim OTP ke log. Untuk mengirim OTP WhatsApp sungguhan,
+tersedia gateway berbasis **Baileys** (pairing via QR, tanpa Chromium) di folder `wa-gateway/`.
+
+Alur (jalankan **setelah** `deploy/install.sh`):
+
+```bash
+cd /root/web-qwrty            # atau /var/www/web-qwrty
+git pull origin main
+sudo bash deploy/install-wa.sh
+pm2 logs rpd-wa-gateway       # scan QR yang muncul (WhatsApp > Perangkat Tertaut)
+```
+
+`install-wa.sh` otomatis: pasang Node.js + pm2, `npm install`, membuat token rahasia,
+menyalakan gateway (autostart via pm2), dan **mengisi `.env` Laravel** (`WHATSAPP_OTP_ENABLED=true`,
+`WHATSAPP_OTP_PROVIDER=http`, `WHATSAPP_API_URL`, `WHATSAPP_API_TOKEN`) lalu refresh config cache.
+
+Gateway hanya mendengarkan di `127.0.0.1:3000` (tidak terbuka ke internet). Endpoint:
+- `GET /health` — status koneksi
+- `POST /send` — body `{ "number": "08xx", "message": "..." }`, header `Authorization: Bearer <token>`
+
+> Gunakan nomor WhatsApp khusus (bukan nomor pribadi). Ini gateway tidak resmi; aman untuk OTP normal.
