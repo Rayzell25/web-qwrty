@@ -41,4 +41,15 @@ return [
         'otp_ttl' => (int) env('WHATSAPP_OTP_TTL', 5),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | AutoGoPay (QRIS payment gateway)
+    |--------------------------------------------------------------------------
+    | API key WAJIB hanya dari .env, tidak boleh hardcode.
+    */
+    'autogopay' => [
+        'base_url' => env('AUTOGOPAY_BASE_URL', 'https://v1-gateway.autogopay.site'),
+        'api_key' => env('AUTOGOPAY_API_KEY'),
+    ],
+
 ];

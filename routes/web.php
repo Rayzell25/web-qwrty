@@ -2,11 +2,13 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\OtpController;
+use App\Http\Controllers\AutoGoPayWebhookController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\LeaderboardController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\WarrantyClaimController;
 use Illuminate\Support\Facades\Route;
@@ -36,6 +38,18 @@ Route::post('/warranty-claim', [WarrantyClaimController::class, 'store'])->name(
 
 /*
 |--------------------------------------------------------------------------
+| Payment Gateway (AutoGoPay QRIS)
+|--------------------------------------------------------------------------
+*/
+// Webhook (tanpa CSRF, lihat bootstrap/app.php).
+Route::post('/webhooks/autogopay', [AutoGoPayWebhookController::class, 'handle'])->name('webhooks.autogopay');
+
+// Halaman pembayaran (publik agar pelanggan bisa membuka link/QR).
+Route::get('/pay/{order}', [PaymentController::class, 'show'])->name('pay.show');
+Route::get('/pay/{order}/status', [PaymentController::class, 'status'])->name('pay.status');
+
+/*
+|--------------------------------------------------------------------------
 | Guest Authentication Routes
 |--------------------------------------------------------------------------
 */
@@ -59,6 +73,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/otp/verify', [OtpController::class, 'showVerifyForm'])->name('otp.verify');
     Route::post('/otp/verify', [OtpController::class, 'verify'])->name('otp.verify.submit');
     Route::post('/otp/resend', [OtpController::class, 'resend'])->name('otp.resend');
+
+    // Top up / buat pembayaran QRIS (uji coba gateway).
+    Route::get('/topup', [PaymentController::class, 'form'])->name('pay.form');
+    Route::post('/topup', [PaymentController::class, 'create'])->name('pay.create');
 
     // Area that requires a fully verified OTP.
     Route::middleware('otp.verified')->group(function () {

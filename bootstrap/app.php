@@ -17,6 +17,11 @@ return Application::configure(basePath: dirname(__DIR__))
             'otp.verified' => EnsureOtpVerified::class,
             'admin' => EnsureAdmin::class,
         ]);
+
+        // Webhook gateway pembayaran tidak mengirim CSRF token.
+        $middleware->validateCsrfTokens(except: [
+            'webhooks/*',
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
