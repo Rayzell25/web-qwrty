@@ -29,8 +29,6 @@ class ProductResource extends Resource
                     Forms\Components\Select::make('category_id')
                         ->label('Kategori')
                         ->relationship('category', 'name')
-                        ->searchable()
-                        ->preload()
                         ->required(),
                     Forms\Components\TextInput::make('name')
                         ->label('Nama')
