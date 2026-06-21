@@ -24,21 +24,45 @@ class SiteSettingResource extends Resource
 
     public static function form(Form $form): Form
     {
+        $isMedia = fn (Forms\Get $get): bool => in_array($get('key'), ['logo', 'favicon'], true);
+
         return $form->schema([
             Forms\Components\TextInput::make('key')
                 ->label('Kunci')
                 ->required()
                 ->maxLength(255)
                 ->unique(ignoreRecord: true)
-                ->helperText('Contoh: site_name, company_email'),
+                ->live(onBlur: true)
+                ->helperText('Contoh: site_name, company_email, logo, favicon'),
             Forms\Components\TextInput::make('group')
                 ->label('Grup')
                 ->maxLength(255)
                 ->helperText('Opsional, untuk pengelompokan (general, contact, social, dll).'),
+
+            // Uploader khusus saat key = logo / favicon
+            Forms\Components\FileUpload::make('value')
+                ->label(fn (Forms\Get $get) => $get('key') === 'favicon' ? 'File Favicon' : 'File Logo')
+                ->disk('public')
+                ->directory('settings')
+                ->visibility('public')
+                ->acceptedFileTypes([
+                    'image/png', 'image/jpeg', 'image/gif', 'image/webp', 'image/svg+xml',
+                    'image/x-icon', 'image/vnd.microsoft.icon', 'video/mp4', 'video/webm',
+                ])
+                ->maxSize(20480)
+                ->downloadable()
+                ->openable()
+                ->visible($isMedia)
+                ->dehydrated($isMedia)
+                ->helperText('Upload logo/favicon. Logo bisa gambar (PNG/JPG/SVG), GIF bergerak, atau video MP4/WEBM. Kosongkan "site_name" jika ingin hanya logo yang tampil.'),
+
+            // Textarea untuk setting teks biasa
             Forms\Components\Textarea::make('value')
                 ->label('Nilai')
                 ->rows(3)
-                ->columnSpanFull(),
+                ->columnSpanFull()
+                ->visible(fn (Forms\Get $get) => ! $isMedia($get))
+                ->dehydrated(fn (Forms\Get $get) => ! $isMedia($get)),
         ]);
     }
 
