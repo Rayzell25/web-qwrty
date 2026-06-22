@@ -74,8 +74,22 @@ class SocialLinkResource extends Resource
                 Tables\Filters\TernaryFilter::make('is_active')->label('Status Aktif'),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\Action::make('preview')
+                        ->label('Lihat di Web')
+                        ->icon('heroicon-o-eye')
+                        ->color('info')
+                        ->url(url('/'))
+                        ->openUrlInNewTab(),
+                    Tables\Actions\EditAction::make()->label('Ubah'),
+                    Tables\Actions\DeleteAction::make()
+                        ->label('Hapus')
+                        ->requiresConfirmation()
+                        ->successNotificationTitle('Tautan dihapus'),
+                ])
+                    ->label('Aksi')
+                    ->icon('heroicon-m-ellipsis-vertical')
+                    ->button(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

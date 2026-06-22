@@ -87,16 +87,37 @@ class SiteSettingResource extends Resource
                     ]),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\Action::make('preview')
+                        ->label('Lihat di Web')
+                        ->icon('heroicon-o-eye')
+                        ->color('info')
+                        ->url(function (SiteSetting $record) {
+                            if (in_array($record->key, ['logo', 'favicon'], true) && filled($record->value)) {
+                                $v = $record->value;
+                                return str_starts_with($v, 'http://') || str_starts_with($v, 'https://')
+                                    ? $v
+                                    : \Illuminate\Support\Facades\Storage::disk('public')->url($v);
+                            }
+                            return url('/');
+                        })
+                        ->openUrlInNewTab(),
+                    Tables\Actions\EditAction::make()->label('Ubah'),
+                    Tables\Actions\DeleteAction::make()
+                        ->label('Hapus')
+                        ->requiresConfirmation()
+                        ->modalHeading('Hapus pengaturan ini?')
+                        ->modalDescription('Pengaturan akan dihapus permanen.')
+                        ->successNotificationTitle('Pengaturan dihapus'),
+                ])
+                    ->label('Aksi')
+                    ->icon('heroicon-m-ellipsis-vertical')
+                    ->button(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ])
-            ->headerActions([
-                // Tombol shortcut "Edit Sosial Media" — filter langsung ke grup social
             ]);
     }
 
