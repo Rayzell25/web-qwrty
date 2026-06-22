@@ -78,11 +78,13 @@ class SiteSettingResource extends Resource
             ->filters([
                 Tables\Filters\SelectFilter::make('group')
                     ->label('Grup')
-                    ->options(fn () => SiteSetting::query()
-                        ->whereNotNull('group')
-                        ->distinct()
-                        ->pluck('group', 'group')
-                        ->toArray()),
+                    ->options([
+                        'general' => 'Umum',
+                        'hero'    => 'Hero / Banner',
+                        'contact' => 'Kontak',
+                        'social'  => 'Media Sosial',
+                        'seo'     => 'SEO',
+                    ]),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -92,6 +94,9 @@ class SiteSettingResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
+            ])
+            ->headerActions([
+                // Tombol shortcut "Edit Sosial Media" — filter langsung ke grup social
             ]);
     }
 

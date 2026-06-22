@@ -29,10 +29,13 @@ class SiteSettingSeeder extends Seeder
             ['key' => 'company_email', 'value' => 'info@rpd.local', 'group' => 'contact'],
 
             // group: social
-            ['key' => 'facebook_url', 'value' => 'https://facebook.com/', 'group' => 'social'],
-            ['key' => 'instagram_url', 'value' => 'https://instagram.com/', 'group' => 'social'],
-            ['key' => 'tiktok_url', 'value' => 'https://tiktok.com/', 'group' => 'social'],
-            ['key' => 'youtube_url', 'value' => 'https://youtube.com/', 'group' => 'social'],
+            ['key' => 'facebook_url',  'value' => '', 'group' => 'social'],
+            ['key' => 'instagram_url', 'value' => '', 'group' => 'social'],
+            ['key' => 'tiktok_url',    'value' => '', 'group' => 'social'],
+            ['key' => 'youtube_url',   'value' => '', 'group' => 'social'],
+            ['key' => 'twitter_url',   'value' => '', 'group' => 'social'],
+            ['key' => 'telegram_url',  'value' => '', 'group' => 'social'],
+            ['key' => 'whatsapp_url',  'value' => '', 'group' => 'social'],
 
             // group: seo
             ['key' => 'meta_title', 'value' => 'RPD — Solusi produk terpercaya', 'group' => 'seo'],
