@@ -76,11 +76,13 @@ class SocialLinkResource extends Resource
             ->actions([
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\Action::make('preview')
-                        ->label('Lihat di Web')
+                        ->label('Preview')
                         ->icon('heroicon-o-eye')
                         ->color('info')
-                        ->url(url('/'))
-                        ->openUrlInNewTab(),
+                        ->modalHeading('Preview Tautan Sosial')
+                        ->modalSubmitAction(false)
+                        ->modalCancelActionLabel('Tutup')
+                        ->modalContent(fn (SocialLink $record) => view('admin.previews.social-link', ['link' => $record])),
                     Tables\Actions\EditAction::make()->label('Ubah'),
                     Tables\Actions\DeleteAction::make()
                         ->label('Hapus')

@@ -89,19 +89,13 @@ class SiteSettingResource extends Resource
             ->actions([
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\Action::make('preview')
-                        ->label('Lihat di Web')
+                        ->label('Preview')
                         ->icon('heroicon-o-eye')
                         ->color('info')
-                        ->url(function (SiteSetting $record) {
-                            if (in_array($record->key, ['logo', 'favicon'], true) && filled($record->value)) {
-                                $v = $record->value;
-                                return str_starts_with($v, 'http://') || str_starts_with($v, 'https://')
-                                    ? $v
-                                    : \Illuminate\Support\Facades\Storage::disk('public')->url($v);
-                            }
-                            return url('/');
-                        })
-                        ->openUrlInNewTab(),
+                        ->modalHeading('Preview')
+                        ->modalSubmitAction(false)
+                        ->modalCancelActionLabel('Tutup')
+                        ->modalContent(fn (SiteSetting $record) => view('admin.previews.site-setting', ['setting' => $record])),
                     Tables\Actions\EditAction::make()->label('Ubah'),
                     Tables\Actions\DeleteAction::make()
                         ->label('Hapus')
