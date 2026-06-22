@@ -7,6 +7,7 @@ use App\Services\WhatsApp\LogWhatsAppProvider;
 use App\Services\WhatsApp\HttpWhatsAppProvider;
 use App\Services\WhatsApp\WhatsAppProvider;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -38,5 +39,11 @@ class AppServiceProvider extends ServiceProvider
     {
         // Avoid index length issues on older database engines.
         Schema::defaultStringLength(191);
+
+        // Paksa HTTPS pada semua URL jika APP_URL https (mis. di belakang
+        // Cloudflare Flexible). Mencegah aset/JS dimuat via http -> diblokir.
+        if (str_starts_with((string) config('app.url'), 'https://')) {
+            URL::forceScheme('https');
+        }
     }
 }

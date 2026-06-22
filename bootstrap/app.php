@@ -13,6 +13,11 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
+        // Di belakang Cloudflare/proxy: percayai header X-Forwarded-* agar
+        // Laravel tahu request asli HTTPS (mencegah mixed-content yang
+        // memblokir JS Filament/Livewire).
+        $middleware->trustProxies(at: '*');
+
         $middleware->alias([
             'otp.verified' => EnsureOtpVerified::class,
             'admin' => EnsureAdmin::class,
