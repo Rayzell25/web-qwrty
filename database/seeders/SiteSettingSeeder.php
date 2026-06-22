@@ -28,14 +28,9 @@ class SiteSettingSeeder extends Seeder
             ['key' => 'company_whatsapp', 'value' => '6281200000000', 'group' => 'contact'],
             ['key' => 'company_email', 'value' => 'info@rpd.local', 'group' => 'contact'],
 
-            // group: social
-            ['key' => 'facebook_url',  'value' => '', 'group' => 'social'],
-            ['key' => 'instagram_url', 'value' => '', 'group' => 'social'],
-            ['key' => 'tiktok_url',    'value' => '', 'group' => 'social'],
-            ['key' => 'youtube_url',   'value' => '', 'group' => 'social'],
-            ['key' => 'twitter_url',   'value' => '', 'group' => 'social'],
-            ['key' => 'telegram_url',  'value' => '', 'group' => 'social'],
-            ['key' => 'whatsapp_url',  'value' => '', 'group' => 'social'],
+            // group: social — judul section footer (kosong = tidak tampil).
+            // Tautan sosial (Telegram, WhatsApp, dll) dikelola di menu "Tautan Sosial".
+            ['key' => 'social_heading', 'value' => '', 'group' => 'social'],
 
             // group: seo
             ['key' => 'meta_title', 'value' => 'RPD — Solusi produk terpercaya', 'group' => 'seo'],
