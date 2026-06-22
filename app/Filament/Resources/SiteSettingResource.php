@@ -27,13 +27,29 @@ class SiteSettingResource extends Resource
         $isMedia = fn (Forms\Get $get): bool => in_array($get('key'), ['logo', 'favicon'], true);
 
         return $form->schema([
-            Forms\Components\TextInput::make('key')
-                ->label('Kunci')
+            Forms\Components\Select::make('key')
+                ->label('Kunci / Bagian Situs')
+                ->options([
+                    'site_name'         => 'Nama Web',
+                    'site_tagline'      => 'Tagline / Slogan',
+                    'logo'              => 'Logo Web',
+                    'favicon'           => 'Favicon (ikon tab browser)',
+                    'footer_text'       => 'Teks Footer (copyright)',
+                    'hero_title'        => 'Judul Hero (baris 1)',
+                    'hero_title_accent' => 'Judul Hero (baris 2, gradient)',
+                    'hero_subtitle'     => 'Subjudul Hero',
+                    'company_address'   => 'Alamat',
+                    'company_phone'     => 'Nomor Telepon',
+                    'company_whatsapp'  => 'Kontak WhatsApp',
+                    'company_email'     => 'Email',
+                    'social_heading'    => 'Judul Section Sosial (footer)',
+                    'meta_title'        => 'SEO: Judul (meta title)',
+                    'meta_description'  => 'SEO: Deskripsi (meta description)',
+                ])
                 ->required()
-                ->maxLength(255)
+                ->live()
                 ->unique(ignoreRecord: true)
-                ->live(onBlur: true)
-                ->helperText('Contoh: site_name, company_email, logo, favicon'),
+                ->helperText('Pilih bagian situs yang ingin diatur.'),
             Forms\Components\TextInput::make('group')
                 ->label('Grup')
                 ->maxLength(255)
